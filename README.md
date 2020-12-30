@@ -1,16 +1,10 @@
-# Images
+# NASAImages
 
-A new Flutter project.
+This is a flutter project to demostrate some of the features. Here are the key heighlights of the project:
 
-## Getting Started
+ - Connects to remote server to fetch JSON response.
+ - Uses Future to do async tasks.
+ - Has platform specific codes (iOS/Android) to save images in user's device.
+ - Handles permissions for android using pub.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
