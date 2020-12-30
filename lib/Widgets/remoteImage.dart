@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -18,6 +17,15 @@ class RemoteImage extends StatelessWidget {
               fit: this.fit,
             ),
           ),
+        );
+      },
+      progressIndicatorBuilder: (ctx, url, progress) {
+        return Center(
+          child: (progress.progress != null && progress.progress < 1)
+              ? CircularProgressIndicator(
+                  value: progress.progress,
+                )
+              : Container(),
         );
       },
     );

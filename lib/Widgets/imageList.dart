@@ -12,9 +12,13 @@ class ImageList extends StatefulWidget {
 
 class _ImageListState extends State<ImageList> {
   List<ImageModel> images = [];
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+  var failedToFetch = false;
   @override
   void initState() {
-    getImages();
+    Future.delayed(Duration(milliseconds: 0))
+        .then((value) => _refreshIndicatorKey.currentState.show());
     super.initState();
   }
 
@@ -22,10 +26,14 @@ class _ImageListState extends State<ImageList> {
     try {
       var value = await Network.getImagesFromServer();
       setState(() {
+        failedToFetch = false;
         this.images = value;
         //print(images);
       });
     } catch (error) {
+      setState(() {
+        failedToFetch = true;
+      });
       print("error occured: $error");
     }
   }
@@ -42,22 +50,49 @@ class _ImageListState extends State<ImageList> {
       appBar: AppBar(
         title: Text("Image of the day"),
       ),
-      body: RefreshIndicator(
-        onRefresh: getImages,
-        child: ListView.builder(
-          itemCount: images.length,
-          itemBuilder: (ctx, index) {
-            return InkWell(
-              child: ImageCell(
-                imageModel: images[index],
+      body: failedToFetch
+          ? Center(
+              child: Container(
+                color: Colors.red,
+                height: double.infinity,
+                width: double.infinity,
+                child: MaterialButton(
+                  //color: Colors.yellow,
+                  child: Text(
+                    "Failed to get images!\nTap to retry.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      failedToFetch = false;
+                      images = [];
+                    });
+                    Future.delayed(Duration(milliseconds: 100)).then(
+                        (value) => _refreshIndicatorKey.currentState.show());
+                  },
+                ),
               ),
-              onTap: () {
-                this.listTapped(index, ctx);
-              },
-            );
-          },
-        ),
-      ),
+            )
+          : RefreshIndicator(
+              key: _refreshIndicatorKey,
+              onRefresh: getImages,
+              child: ListView.builder(
+                itemCount: images.length,
+                itemBuilder: (ctx, index) {
+                  return InkWell(
+                    child: ImageCell(
+                      imageModel: images[index],
+                    ),
+                    onTap: () {
+                      this.listTapped(index, ctx);
+                    },
+                  );
+                },
+              ),
+            ),
     );
   }
 }

@@ -74,7 +74,7 @@ class MainActivity: FlutterActivity() {
 
         val mediaStorageDir = File(Environment.getExternalStorageDirectory().absoluteFile, "/Android/data/"
                 + applicationContext.packageName
-                + "/Files")
+                + "/NASAImages")
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
         // Create the storage directory if it does not exist
@@ -86,7 +86,7 @@ class MainActivity: FlutterActivity() {
         // Create a media file name
         val timeStamp: String = SimpleDateFormat("ddMMyyyy_HHmm").format(Date())
         val mediaFile: File
-        val mImageName = "MI_$timeStamp.jpg"
+        val mImageName = "NI_$timeStamp.jpg"
         mediaFile = File(mediaStorageDir.path + File.separator + mImageName)
         return mediaFile
     }

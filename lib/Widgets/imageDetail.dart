@@ -7,6 +7,7 @@ import '../models.dart';
 import '../networkHandler.dart' as Network;
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ImageDetail extends StatefulWidget {
   static String routeName = "ImageDetail";
@@ -43,6 +44,10 @@ class _ImageDetailState extends State<ImageDetail> {
   }
 
   downloadImage(BuildContext context) async {
+    final status = await Permission.storage.status;
+    if (status.isUndetermined) {
+      await Permission.storage.request();
+    }
     setState(() {
       downloadingImage = true;
     });
@@ -82,7 +87,10 @@ class _ImageDetailState extends State<ImageDetail> {
   @override
   Widget build(BuildContext context) {
     final ImageModel model = ModalRoute.of(context).settings.arguments;
-    this.widget.imageModel = model;
+    if (model != null) {
+      this.widget.imageModel = model;
+    }
+    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -215,6 +223,7 @@ class __TapableLinkTextState extends State<_TapableLinkText> {
       padding: EdgeInsets.only(
         left: 10,
         right: 10,
+        bottom: 20,
       ),
       child: SafeArea(
         top: false,
