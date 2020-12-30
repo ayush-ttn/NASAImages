@@ -48,6 +48,34 @@ class _ImageDetailState extends State<ImageDetail> {
     if (status.isUndetermined) {
       await Permission.storage.request();
     }
+    final status2 = await Permission.storage.status;
+    print("permission status $status2");
+    if (await Permission.storage.isDenied) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text("Permission Denied!"),
+              content: Text(
+                  "Images can not be downloaded if storage permission is denied."),
+              actions: [
+                MaterialButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text("OK"),
+                ),
+                MaterialButton(
+                  onPressed: () {
+                    openAppSettings();
+                  },
+                  child: Text("Open settings"),
+                )
+              ],
+            );
+          });
+      return;
+    }
     setState(() {
       downloadingImage = true;
     });
@@ -90,7 +118,7 @@ class _ImageDetailState extends State<ImageDetail> {
     if (model != null) {
       this.widget.imageModel = model;
     }
-    
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
