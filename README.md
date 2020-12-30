@@ -1,6 +1,6 @@
 # NASAImages
 
-This is a flutter project to demostrate some of the features. Here are the key heighlights of the project:
+This is a flutter project to demostrate some of the features. Here are the key highlights of the project:
 
  - Connects to remote server to fetch JSON response.
  - Uses Future to do async tasks.
