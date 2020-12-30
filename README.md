@@ -7,5 +7,6 @@ This is a flutter project to demostrate some of the features. Here are the key h
  - On fullscreen detail view, images can be zoomed or saved to user's device.
  - Has platform specific codes (iOS/Android) to save images in user's device.
  - Handles permissions for android using pub.
+ - Open hyperlinks in browser.
 
 
